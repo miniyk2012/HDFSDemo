@@ -39,6 +39,7 @@ public class Merge {
     private void mergeToFile() throws IOException {
         FileStatus[] sourceStatus = fsSource.listStatus(inputPath, new MyPathFiler(".*\\.abc"));
         FSDataOutputStream fsdos = fsDst.create(outputPath);
+        PrintStream ps = new PrintStream(System.out);
         for (FileStatus sta : sourceStatus) {
             if (!sta.isFile()) {
                 continue;
@@ -48,15 +49,14 @@ public class Merge {
             FSDataInputStream fsdis = fsSource.open(sta.getPath());
             byte[] data = new byte[1024];
             int read = -1;
-            PrintStream ps = new PrintStream(System.out);
             while ((read = fsdis.read(data)) > 0) {
                 ps.write(data, 0, read);
                 fsdos.write(data, 0, read);
             }
             fsdis.close();
-            ps.close();
         }
         fsdos.close();
+        ps.close();
     }
 
     private void initConf() {
