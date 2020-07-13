@@ -16,7 +16,7 @@ public class HDFSCreateFile {
             conf.set("fs.defaultFS", "hdfs://zjka-cpc-backend-bigdata-qa-01:9000");
             conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
             FileSystem fs = FileSystem.get(conf);
-            byte[] buff = "Hello World".getBytes();
+            byte[] buff = "Hello World 杨恺牛逼".getBytes();
             String fileName = "test";
             FSDataOutputStream os = fs.create(new Path(fileName));
             os.write(buff, 0, buff.length);

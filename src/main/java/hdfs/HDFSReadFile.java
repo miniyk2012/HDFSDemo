@@ -19,7 +19,7 @@ public class HDFSReadFile {
 			conf.set("fs.defaultFS", "hdfs://zjka-cpc-backend-bigdata-qa-01:9000");
 			conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
 			FileSystem fs = FileSystem.get(conf);
-			Path file = new Path("/user/hadoop/test");
+			Path file = new Path("test");
 			FSDataInputStream in = fs.open(file);
 			BufferedReader d = new BufferedReader(new InputStreamReader(in));
 			String content = d.readLine();
