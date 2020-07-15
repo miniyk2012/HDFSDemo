@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class HDFSApi {
     final static Logger logger = LoggerFactory.getLogger(HDFSApi.class);
@@ -26,6 +25,7 @@ public class HDFSApi {
 
     /**
      * 追加文件内容
+     *
      * @param src 本地文件
      * @param dst hdfs文件
      * @throws IOException
@@ -55,5 +55,31 @@ public class HDFSApi {
 
     public void getFile(String remoteFilePath, String localFilePath) throws IOException {
         FileSystem fs = FileSystem.get(conf);
+        Path remotePath = new Path(remoteFilePath);
+        while (true) {
+            if (new File(localFilePath).exists()) {
+                localFilePath = "new" + localFilePath;
+            } else {
+                break;
+            }
+        }
+        File localPath = new File(localFilePath);
+        FileUtil.copy(fs, remotePath, localPath, false, conf);
+        fs.close();
+    }
+
+    public void catDfsFile(String filename) throws IOException {
+        FileSystem fs = FileSystem.get(conf);
+        Path remotePath = new Path(filename);
+        if (exist(filename)) {
+            FSDataInputStream input = fs.open(remotePath);
+            BufferedReader d = new BufferedReader(new InputStreamReader(input));
+            String line = null;
+            while ((line = d.readLine()) != null) {
+                System.out.println(line);
+            }
+        } else {
+            logger.warn("文件不存在");
+        }
     }
 }

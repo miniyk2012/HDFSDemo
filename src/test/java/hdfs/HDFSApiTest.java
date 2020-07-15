@@ -6,10 +6,10 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
 
 public class HDFSApiTest {
     private HDFSApi hdfsApi;
+
     @Before
     public void setUp() throws Exception {
         hdfsApi = new HDFSApi();
@@ -28,5 +28,13 @@ public class HDFSApiTest {
         }
     }
 
+    @Test
+    public void getFile() throws IOException {
+        hdfsApi.getFile("test", "localFile");
+    }
 
+    @Test
+    public void cat() throws IOException {
+        hdfsApi.catDfsFile("test");
+    }
 }
