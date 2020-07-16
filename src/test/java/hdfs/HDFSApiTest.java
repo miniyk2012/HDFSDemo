@@ -1,5 +1,6 @@
 package hdfs;
 
+import org.apache.commons.cli.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,5 +37,22 @@ public class HDFSApiTest {
     @Test
     public void cat() throws IOException {
         hdfsApi.catDfsFile("test");
+    }
+
+    @Test
+    public void ls() throws IOException {
+        hdfsApi.ls("input");
+    }
+
+    @Test
+    public void lsDir() throws IOException {
+        hdfsApi.lsDir("/user");
+    }
+
+    @Test
+    public void createOrDelete() throws IOException, ParseException {
+//        String args[] = {"-delete"};
+        String args[] = {};
+        hdfsApi.createOrDelete("wawa/yangkai", args);
     }
 }
