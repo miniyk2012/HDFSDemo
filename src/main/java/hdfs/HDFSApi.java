@@ -145,4 +145,18 @@ public class HDFSApi {
         }
         fs.close();
     }
+
+    public boolean isDieEmpty(String dir) throws IOException {
+        FileSystem fs = FileSystem.get(conf);
+        return false;
+    }
+
+    public void mkdir(String dir) throws IOException {
+        FileSystem fs = FileSystem.get(conf);
+
+    }
+
+    public void rmDir(String dir) throws IOException {
+        FileSystem fs = FileSystem.get(conf);
+    }
 }
