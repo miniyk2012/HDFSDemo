@@ -1,20 +1,17 @@
 package hdfs;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.cli.Options;
+import org.apache.hadoop.fs.*;
+import org.apache.hadoop.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.LocatedFileStatus;
-import org.apache.hadoop.fs.RemoteIterator;
-import org.apache.hadoop.fs.FileUtil;
-import org.apache.hadoop.fs.Path;
 
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 
 public class HDFSApi {
@@ -146,17 +143,33 @@ public class HDFSApi {
         fs.close();
     }
 
-    public boolean isDieEmpty(String dir) throws IOException {
+    /**
+     * 判断目录是否为空
+     * @param dir
+     */
+    public boolean isDirEmpty(String dir) throws IOException {
         FileSystem fs = FileSystem.get(conf);
-        return false;
+        RemoteIterator<LocatedFileStatus> iter = fs.listFiles(new Path(dir), false);
+        return !iter.hasNext();
     }
 
-    public void mkdir(String dir) throws IOException {
+    public boolean mkdir(String dir) throws IOException {
         FileSystem fs = FileSystem.get(conf);
-
+        boolean success = fs.mkdirs(new Path(dir));
+        fs.close();
+        return success;
     }
 
-    public void rmDir(String dir) throws IOException {
+    public boolean rmDir(String dir) throws IOException {
         FileSystem fs = FileSystem.get(conf);
+        boolean success = fs.delete(new Path(dir), true);
+        fs.close();
+        return success;
+    }
+
+    public void readFromURL(String url) throws IOException {
+        URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
+        InputStream in = new URL(url).openStream();
+        IOUtils.copyBytes(in, System.out, 4096, false);
     }
 }

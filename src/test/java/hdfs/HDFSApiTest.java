@@ -55,4 +55,25 @@ public class HDFSApiTest {
         String args[] = {};
         hdfsApi.createOrDelete("wawa/yangkai", args);
     }
+    @Test
+    public void mkdir() throws IOException {
+        String filePath = "wawa/yangkai";
+        if (hdfsApi.isDirEmpty(filePath)) {
+            hdfsApi.rmDir(filePath);
+        } else {
+            System.out.println("目录不空, 不删除");
+        }
+    }
+
+    @Test
+    public void appendToFile() {
+        String args[] = {"Before"};
+        // todo: 待完成
+    }
+
+    @Test
+    public void readFromURL() throws IOException {
+        hdfsApi.readFromURL("hdfs://zjka-cpc-backend-bigdata-qa-01:9000/user/hadoop/file1.txt");
+    }
+
 }
