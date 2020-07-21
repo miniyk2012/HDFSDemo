@@ -37,7 +37,7 @@ public class Merge {
     }
 
     private void mergeToFile() throws IOException {
-        FileStatus[] sourceStatus = fsSource.listStatus(inputPath, new MyPathFiler(".*\\.abc"));
+        FileStatus[] sourceStatus = fsSource.listStatus(inputPath, new MyPathFilter(".*\\.abc"));
         FSDataOutputStream fsdos = fsDst.create(outputPath);
         PrintStream ps = new PrintStream(System.out);
         for (FileStatus sta : sourceStatus) {

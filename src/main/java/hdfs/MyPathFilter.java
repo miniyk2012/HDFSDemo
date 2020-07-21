@@ -3,10 +3,10 @@ package hdfs;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
 
-public class MyPathFiler implements PathFilter {
+public class MyPathFilter implements PathFilter {
     String reg = null;
 
-    public MyPathFiler(String reg) {
+    public MyPathFilter(String reg) {
         this.reg = reg;
     }
 

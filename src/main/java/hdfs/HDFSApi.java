@@ -145,6 +145,7 @@ public class HDFSApi {
 
     /**
      * 判断目录是否为空
+     *
      * @param dir
      */
     public boolean isDirEmpty(String dir) throws IOException {
@@ -171,5 +172,31 @@ public class HDFSApi {
         URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
         InputStream in = new URL(url).openStream();
         IOUtils.copyBytes(in, System.out, 4096, false);
+    }
+
+    public void appendToFile(String src, String remote, String position) throws IOException {
+
+        if ("After".equals(position)) {
+            appendToFile(src, remote);
+        } else if ("Before".equals(position)) {
+            FileSystem fs = FileSystem.get(conf);
+            Path remotePath = new Path(remote);
+            String localTempFile = "local" + remote;
+            fs.moveToLocalFile(remotePath, new Path(localTempFile));
+            fs.create(remotePath);
+            fs.close();
+            appendToFile(src, remote);
+            appendToFile(localTempFile, remote);
+        }
+    }
+
+    public void mv(String src, String dst) {
+        try (FileSystem fs = FileSystem.get(conf)) {
+            Path srcPath = new Path(src);
+            Path dstPath = new Path(dst);
+            fs.rename(srcPath, dstPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

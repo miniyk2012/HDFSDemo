@@ -55,6 +55,7 @@ public class HDFSApiTest {
         String args[] = {};
         hdfsApi.createOrDelete("wawa/yangkai", args);
     }
+
     @Test
     public void mkdir() throws IOException {
         String filePath = "wawa/yangkai";
@@ -66,9 +67,11 @@ public class HDFSApiTest {
     }
 
     @Test
-    public void appendToFile() {
-        String args[] = {"Before"};
+    public void appendToFile() throws IOException {
         // todo: 待完成
+        String src = "/Users/admin/Documents/javaprojects/HDFSDemo/pom.xml";
+        String remote = "file2.txt";
+        hdfsApi.appendToFile(src, remote, "Before");
     }
 
     @Test
@@ -76,4 +79,8 @@ public class HDFSApiTest {
         hdfsApi.readFromURL("hdfs://zjka-cpc-backend-bigdata-qa-01:9000/user/hadoop/file1.txt");
     }
 
+    @Test
+    public void mv() {
+        hdfsApi.mv("test1", "yangkai");
+    }
 }
