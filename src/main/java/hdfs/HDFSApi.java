@@ -136,6 +136,7 @@ public class HDFSApi {
                 System.out.println("文件不存在");
             }
         } else {
+            fs.delete(remotePath, true);
             FSDataOutputStream out = fs.create(remotePath);
             System.out.println("文件创建成功");
             out.close();
